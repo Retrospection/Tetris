@@ -1,6 +1,6 @@
 # Tetris
 
-A tetris game wrote in pure ECMAScript 5
+A tetris game wrote in almost ECMAScript 5
 
 ## Tech Stack
 

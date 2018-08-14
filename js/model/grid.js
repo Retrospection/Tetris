@@ -1,4 +1,4 @@
-function Grid() {
+function Grid () {
 
     // 存储俄罗斯方块方格
     this.data = []
@@ -67,4 +67,5 @@ Grid.prototype.print = function () {
     }
     console.log(result)
 }
+
 
