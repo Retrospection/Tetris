@@ -47,12 +47,13 @@ Grid.prototype.remove = function (numOfRows) {
 
     // 由于处于 data 数组末尾的为底层，处于 data 数组首部的为高层，只需要弹出尾部，并在首部添加即可
     for (let i = 0; i < numOfRows; ++i) {
-    this.data.pop()
-    let temp = []
-    for (let j = 0; j < 10; ++j) {
-        temp.push(0)
+        this.data.pop()
+        let temp = []
+        for (let j = 0; j < 10; ++j) {
+            temp.push(0)
+        }
+        this.data.unshift(temp)
     }
-    this.data.unshift(temp)
 }
 
 // 用来调试的函数，可以输出当前model中存储情况
