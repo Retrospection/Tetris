@@ -1,6 +1,14 @@
-function CanvasView ($canvas) {
-    this.canvas = $canvas
-    this.context = this.canvas.getContext('2d');
+function CanvasView () {
+    this.canvas = document.getElementById('canvas')
+    this.context = this.canvas.getContext('2d')
+    this.delegate = undefined
+}
+
+
+CanvasView.prototype.init = function () {
+    if (this.delegate !== undefined) {
+        document.addEventListener('keydown', this.delegate.onKeyDownHandler, true)
+    }
 }
 
 CanvasView.prototype.refresh = function (grid) {

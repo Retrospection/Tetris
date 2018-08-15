@@ -1,8 +1,50 @@
 function Tetris () {
-    this.grid = new Grid()
-    this.canvasView = new CanvasView(document.getElementById('canvas'))
+    this.model = new Grid()
+    this.view = new CanvasView()
+    this.view.delegate = this
 }
 
 Tetris.prototype.init = function () {
-   this.canvasView.refresh(this.grid.data)
+    this.view.init()
+    this.model.init()
 }
+
+Tetris.prototype.onKeyDownHandler = function (event) {
+    if (event.keyCode === 32) {
+        this._onSpaceDownHandler(event)
+    } else if (event.keyCode === 38) {
+        this._onArrowUpDownHandler(event)
+    } else if (event.keyCode === 40) {
+        this._onArrowDownDownHandler(event)
+    } else if (event.keyCode === 37) {
+        this._onArrowLeftDownHandler(event)
+    } else if (event.keyCode === 39) {
+        this._onArrowRightDownHandler(event)
+    }
+}
+
+// 空格
+Tetris.prototype._onSpaceDownHandler = function (event) {
+
+}
+
+// 上
+Tetris.prototype._onArrowUpDownHandler = function (event) {
+    
+}
+
+// 下
+Tetris.prototype._onArrowDownDownHandler = function (event) {
+    
+}
+
+// 左
+Tetris.prototype._onArrowLeftDownHandler = function (event) {
+    
+}
+
+// 右
+Tetris.prototype._onArrowRightDownHandler = function (event) {
+    
+}
+
