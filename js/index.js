@@ -1,8 +1,8 @@
 
 
 function _main() {
-    let grid = new Grid()
-    grid.print()
+    let game = new Tetris()
+    game.init()
 }
 
 _main()
