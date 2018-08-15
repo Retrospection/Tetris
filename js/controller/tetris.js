@@ -2,11 +2,23 @@ function Tetris () {
     this.model = new Grid()
     this.view = new CanvasView()
     this.view.delegate = this
+    this.bRunning = false
+    this.fps = 1
 }
 
 Tetris.prototype.init = function () {
     this.view.init()
     this.model.init()
+}
+
+// 游戏主循环
+Tetris.prototype.run = function () {
+    let alive = true
+    while (this.bRunning && alive) {
+        alive = this.model.tick()
+        this.view.refresh(this.model.data)
+    }
+    this.bRunning = false
 }
 
 Tetris.prototype.onKeyDownHandler = function (event) {
@@ -25,7 +37,9 @@ Tetris.prototype.onKeyDownHandler = function (event) {
 
 // 空格
 Tetris.prototype._onSpaceDownHandler = function (event) {
-
+    if (!this.bRunning) {
+        this.bRunning = true
+    }
 }
 
 // 上

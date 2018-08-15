@@ -5,7 +5,7 @@ function Grid () {
 
     // 当前可活动元素位置
     this.activeBlock = []
-    
+
 }
 
 Grid.prototype.init = function () {
@@ -51,7 +51,7 @@ Grid.prototype.generate = function () {
 }
 
 // 刷新游戏状态
-Grid.prototype.refresh = function () {
+Grid.prototype.tick = function () {
     
 }
 
