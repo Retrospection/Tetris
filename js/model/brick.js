@@ -1,33 +1,39 @@
-function BrickI (position, grid) {
-    this.grid = grid
-    this.coordinates = []
-    this.bBottom = false
-    for (let i = 1; i <= 4; ++i) {
-        this.coordinates.push([i, position])
+
+class BrickI {
+    constructor(position, grid) {
+        this.grid = grid
+        this.coordinates = []
+        this.bBottom = false
+    
+        //this.bBottom = false
+        for (let i = 1; i <= 4; ++i) {
+            this.coordinates.push([i, position])
+        }
+
+        this.coordinates.forEach((coordinate) => {
+            const row = coordinate[0]
+            const column = coordinate[1]
+            this.grid.data[row][column] = 1
+        })
     }
-    this.coordinates.forEach((coordinate) => {
-        const row = coordinate[0]
-        const column = coordinate[1]
-        this.grid.data[row][column] = 1
-    })
-}
 
-BrickI.prototype.isBottom = function () {
-    return this.bBottom
-}
-
-// 砖块移动
-BrickI.prototype.move = function (direction) {
-    _moveBrick(this, direction)
-}
-
-// 砖块旋转
-BrickI.prototype.rotate = function () {
-
+    isBottom() {
+        return this.bBottom
+    }
+    
+    // 砖块移动
+    move(direction) {
+        _moveBrick(this, direction)
+    }
+    
+    // 砖块旋转
+    rotate() {
+    
+    }
 }
 
 function _moveBrick (brick, direction) {
-
+    
     if (this.bBottom) {
         return
     }
@@ -128,16 +134,16 @@ function _moveBrick (brick, direction) {
         let brickNewPosition = brickPrevPosition.map(coordinate => [coordinate[0] + 1, coordinate[1]]) 
 
         // 检查砖块是否到底
-        if (brickNewPosition.filter(coordinate => coordinate[0] > 20).length > 0) {
-            this.bBottom = true
-            return
-        }
+        // if (brickNewPosition.filter(coordinate => coordinate[0] >= 20).length > 0) {
+        //     brick.bBottom = true
+        //     return
+        // }
 
         brick.coordinates.forEach( coordinate => {
 
             const row = coordinate[0]
             const column = coordinate[1]
-            brick.grid.data[row][column] = 0
+            brick.grid.data[row][column] -= 1
 
             const newRow = row + 1
             const newColumn = column
@@ -156,8 +162,10 @@ function _moveBrick (brick, direction) {
             }
         }
         if (bChangeState) {
+            brick.bBottom = false
             brick.coordinates = brickNewPosition
         } else {
+            brick.bBottom = true
             brick.coordinates = brickPrevPosition
             brick.grid.data = gridPrevState
         }
@@ -166,3 +174,5 @@ function _moveBrick (brick, direction) {
     }
     
 }
+
+
