@@ -84,6 +84,7 @@ Grid.prototype.generate = function () {
 
 // 判断当前砖块是否到底
 Grid.prototype.isBottom = function () {
+    console.log(this)
     return this.activeBrick.isBottom()
 }
 
