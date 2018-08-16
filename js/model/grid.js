@@ -52,7 +52,7 @@ Grid.prototype.generate = function () {
 
 // 刷新游戏状态
 Grid.prototype.tick = function () {
-    
+    console.log('tick')
 }
 
 // 检查并返回当前可以移除的行数

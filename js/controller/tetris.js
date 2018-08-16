@@ -2,8 +2,8 @@ function Tetris () {
     this.model = new Grid()
     this.view = new CanvasView()
     this.view.delegate = this
-    this.bRunning = false
     this.fps = 1
+    this.alive = false
 }
 
 Tetris.prototype.init = function () {
@@ -13,12 +13,13 @@ Tetris.prototype.init = function () {
 
 // 游戏主循环
 Tetris.prototype.run = function () {
-    let alive = true
-    while (this.bRunning && alive) {
-        alive = this.model.tick()
-        this.view.refresh(this.model.data)
+    if (this.alive) {
+        let self = this
+        setInterval(function () {
+            alive = self.model.tick()
+            self.view.refresh(self.model.data)
+        }, 1000 / this.fps)
     }
-    this.bRunning = false
 }
 
 Tetris.prototype.onKeyDownHandler = function (event) {
@@ -37,8 +38,9 @@ Tetris.prototype.onKeyDownHandler = function (event) {
 
 // 空格
 Tetris.prototype._onSpaceDownHandler = function (event) {
-    if (!this.bRunning) {
-        this.bRunning = true
+    if (!this.alive) {
+        this.alive = true
+        this.run()
     }
 }
 

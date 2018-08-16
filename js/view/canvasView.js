@@ -7,7 +7,7 @@ function CanvasView () {
 
 CanvasView.prototype.init = function () {
     if (this.delegate !== undefined) {
-        document.addEventListener('keydown', this.delegate.onKeyDownHandler, true)
+        document.onkeydown = this.delegate.onKeyDownHandler.bind(this.delegate)
     }
 }
 
