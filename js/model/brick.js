@@ -11,6 +11,10 @@ function BrickI (position, grid) {
     })
 }
 
+BrickI.prototype.isBottom = function () {
+    return true
+}
+
 // 砖块移动
 BrickI.prototype.move = function (direction) {
     _moveBrick(this, direction)

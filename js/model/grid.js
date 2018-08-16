@@ -4,9 +4,21 @@ function Grid () {
 
     // 当前可活动元素位置
     this.activeBrick = undefined
+
+    // 初始化
+    this.bInit = false
 }
 
+
+// -------------------------------------- 游戏状态逻辑 ---------------------------------
+
 Grid.prototype.init = function () {
+    
+    // 防止重复初始化
+    if (this.bInit) {
+        return
+    }
+
     // 初始化数组
     for (let i = 0; i < 20; ++i) {
         let row = []
@@ -15,23 +27,22 @@ Grid.prototype.init = function () {
         }
         this.data.push(row)
     }
+
+    this.bInit = true
 }
 
 
 // 判断当前游戏是否结束
 Grid.prototype.isDead = function () {
+    let bDead = false
 
-}
+    for (let i = 0; i < this.data[0].length; ++i) {
+        if (this.data[0][i] > 0) {
+            bDead = true
+        }
+    }
 
-// 判断当前砖块是否到底
-Grid.prototype.isBottom = function () {
-
-}
-
-// 生成一个砖块
-Grid.prototype.generate = function () {
-    this.activeBrick = new BrickI(4, this)
-    this.print()
+    return this.bInit && bDead
 }
 
 // 检查并返回当前可以移除的行数
@@ -63,6 +74,19 @@ Grid.prototype.remove = function (numOfRows) {
 }
 
 
+
+// ---------------------------------- 砖块控制逻辑 ---------------------------------
+// 生成一个砖块
+Grid.prototype.generate = function () {
+    this.activeBrick = new BrickI(4, this)
+    this.print()
+}
+
+// 判断当前砖块是否到底
+Grid.prototype.isBottom = function () {
+    return this.activeBrick.isBottom()
+}
+
 Grid.prototype.toTheGround = function () {
     this.activeBrick.move('bottom')
 }
@@ -82,6 +106,8 @@ Grid.prototype.moveLeft = function () {
 Grid.prototype.moveRight = function () {
     this.activeBrick.move('right')
 }
+
+// ------------------------------------- debug ------------------------------------
 
 // 用来调试的函数，可以输出当前model中存储情况
 Grid.prototype.print = function () {
