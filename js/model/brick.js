@@ -134,10 +134,10 @@ function _moveBrick (brick, direction) {
         let brickNewPosition = brickPrevPosition.map(coordinate => [coordinate[0] + 1, coordinate[1]]) 
 
         // 检查砖块是否到底
-        // if (brickNewPosition.filter(coordinate => coordinate[0] >= 20).length > 0) {
-        //     brick.bBottom = true
-        //     return
-        // }
+        if (brickNewPosition.filter(coordinate => coordinate[0] >= 20).length > 0) {
+            brick.bBottom = true
+            return
+        }
 
         brick.coordinates.forEach( coordinate => {
 
