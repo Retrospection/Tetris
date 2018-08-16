@@ -2,7 +2,7 @@ function BrickI (position, grid) {
     this.grid = grid
     this.coordinates = []
     this.bBottom = false
-    for (let i = 0; i < 4; ++i) {
+    for (let i = 1; i <= 4; ++i) {
         this.coordinates.push([i, position])
     }
     this.coordinates.forEach((coordinate) => {
@@ -125,7 +125,7 @@ function _moveBrick (brick, direction) {
         let gridPrevState = JSON.parse(JSON.stringify(brick.grid.data))
 
         // 砖块新位置
-        let brickNewPosition = brickNewPosition.map(coordinate => [coordinate[0] + 1, coordinate[1]]) 
+        let brickNewPosition = brickPrevPosition.map(coordinate => [coordinate[0] + 1, coordinate[1]]) 
 
         // 检查砖块是否到底
         if (brickNewPosition.filter(coordinate => coordinate[0] > 20).length > 0) {
@@ -133,7 +133,7 @@ function _moveBrick (brick, direction) {
             return
         }
 
-        brick.coordinate.forEach( coordinate => {
+        brick.coordinates.forEach( coordinate => {
 
             const row = coordinate[0]
             const column = coordinate[1]

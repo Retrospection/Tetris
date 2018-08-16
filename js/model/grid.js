@@ -7,6 +7,8 @@ function Grid () {
 
     // 初始化
     this.bInit = false
+
+    this.bDead = false
 }
 
 
@@ -27,22 +29,19 @@ Grid.prototype.init = function () {
         }
         this.data.push(row)
     }
-
+    this.generate()
     this.bInit = true
 }
 
 
 // 判断当前游戏是否结束
 Grid.prototype.isDead = function () {
-    let bDead = false
-
     for (let i = 0; i < this.data[0].length; ++i) {
         if (this.data[0][i] > 0) {
-            bDead = true
+            this.bDead = true
         }
     }
-
-    return this.bInit && bDead
+    return this.bInit && this.bDead
 }
 
 // 检查并返回当前可以移除的行数
@@ -84,7 +83,7 @@ Grid.prototype.generate = function () {
 
 // 判断当前砖块是否到底
 Grid.prototype.isBottom = function () {
-    console.log(this)
+    
     return this.activeBrick.isBottom()
 }
 

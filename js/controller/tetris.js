@@ -19,7 +19,7 @@ Tetris.prototype.run = function () {
         if (!this.model.isDead() && this.model.isBottom()) {
             this.model.generate()
         }
-        if (!this.model.isDead && !this.model.isBottom()) {
+        if (!this.model.isDead() && !this.model.isBottom()) {
             this.model.moveDown()
         }
     }, 1000 / this.fps)
