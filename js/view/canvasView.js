@@ -12,6 +12,11 @@ CanvasView.prototype.init = function () {
 }
 
 CanvasView.prototype.refresh = function (grid) {
+
+    // 清屏
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+    // 重绘画布
     for (let row = 0; row < grid.length; ++row) {
         for (let column = 0; column < grid[row].length; ++column) {
             if (grid[row][column] === 1) {
@@ -26,6 +31,6 @@ CanvasView.prototype._drawBrick = function (coordinate) {
     let y = coordinate[1]
     let drawX = 35 * x + 2
     let drawY = 35 * y + 2
-    console.log('draw at: ', drawX, drawY)
+    //console.log('draw at: ', drawX, drawY)
     this.context.fillRect(drawX, drawY, 30, 30)
 }

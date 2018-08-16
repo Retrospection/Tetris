@@ -14,10 +14,13 @@ Tetris.prototype.init = function () {
 // 游戏主循环
 Tetris.prototype.run = function () {
     if (this.alive) {
+        if (!this.model.activeBlock) {
+            this.model.generate()
+        }
         let self = this
         setInterval(function () {
-            alive = self.model.tick()
             self.view.refresh(self.model.data)
+            alive = self.model.tick()
         }, 1000 / this.fps)
     }
 }
