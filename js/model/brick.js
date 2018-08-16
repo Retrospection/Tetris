@@ -16,9 +16,12 @@ BrickI.prototype.move = function (direction) {
     _moveBrick(this, direction)
 }
 
-function _moveBrick (brick, direction) {
+// 砖块旋转
+BrickI.prototype.rotate = function () {
 
-    
+}
+
+function _moveBrick (brick, direction) {
     if (direction === 'left') {
 
         // 砖块原始位置
@@ -46,7 +49,6 @@ function _moveBrick (brick, direction) {
         console.log('new grid: ')
         brick.grid.print()
 
-
         let bChangeState = true
         for (let row = 0; row < brick.grid.data.length; ++row) {
             for (let column = 0; column < brick.grid.data[row].length; ++column) {
@@ -55,15 +57,12 @@ function _moveBrick (brick, direction) {
                 }
             }
         }
-
         if (bChangeState) {
             brick.coordinates = brickNewPosition
         } else {
             brick.coordinates = brickPrevPosition
             brick.grid.data = gridPrevState
         }
-
-    
     } else if (direction === 'right') {
 
         // 砖块原始位置

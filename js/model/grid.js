@@ -1,11 +1,9 @@
 function Grid () {
-
     // 存储俄罗斯方块方格
     this.data = []
 
     // 当前可活动元素位置
-    this.activeBlock = undefined
-
+    this.activeBrick = undefined
 }
 
 Grid.prototype.init = function () {
@@ -20,15 +18,19 @@ Grid.prototype.init = function () {
 }
 
 
-// 生成一个砖块
-Grid.prototype.generate = function () {
-    this.activeBlock = new BrickI(4, this)
-    this.print()
+// 判断当前游戏是否结束
+Grid.prototype.isDead = function () {
+
 }
 
-// 刷新游戏状态
-Grid.prototype.tick = function () {
-    this.activeBlock.move('right')
+// 判断当前砖块是否到底
+Grid.prototype.isBottom = function () {
+
+}
+// 生成一个砖块
+Grid.prototype.generate = function () {
+    this.activeBrick = new BrickI(4, this)
+    this.print()
 }
 
 // 检查并返回当前可以移除的行数
@@ -59,6 +61,26 @@ Grid.prototype.remove = function (numOfRows) {
     }
 }
 
+
+Grid.prototype.toTheGround = function () {
+    this.activeBrick.move('bottom')
+}
+
+Grid.prototype.rotate = function () {
+    this.activeBrick.rotate()
+}
+
+Grid.prototype.moveDown = function () {
+    this.activeBrick.move('down')
+}
+
+Grid.prototype.moveLeft = function () {
+    this.activeBrick.move('left')
+}
+
+Grid.prototype.moveRight = function () {
+    this.activeBrick.move('right')
+}
 
 // 用来调试的函数，可以输出当前model中存储情况
 Grid.prototype.print = function () {
