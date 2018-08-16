@@ -27,6 +27,7 @@ Grid.prototype.isDead = function () {
 Grid.prototype.isBottom = function () {
 
 }
+
 // 生成一个砖块
 Grid.prototype.generate = function () {
     this.activeBrick = new BrickI(4, this)
