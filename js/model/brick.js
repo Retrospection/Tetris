@@ -1,178 +1,187 @@
 
-class BrickI {
+
+class BaseBrick {
     constructor(position, grid) {
         this.grid = grid
         this.coordinates = []
         this.bBottom = false
+        this.init(position)
+    }
+    init(position) {
+        throw Error('init not implement!')
+    }
+    isBottom() {
+        return this.bBottom
+    }
+        // 砖块移动
+    move(direction) {
+        this._moveBrick(this, direction)
+    }
+
+    _moveBrick (brick, direction) {
+        if (this.bBottom) {
+            return
+        }
+        if (direction === 'left') {
     
-        //this.bBottom = false
+            // 砖块原始位置
+            let brickPrevPosition = JSON.parse(JSON.stringify(brick.coordinates))
+    
+            // grid原始状态
+            let gridPrevState = JSON.parse(JSON.stringify(brick.grid.data))
+    
+            // 砖块新位置
+            let brickNewPosition = brickPrevPosition.map( coordinate => [coordinate[0], coordinate[1] - 1  >= 0 ? coordinate[1] - 1 : coordinate[1]] )
+    
+            // 从砖块当前位置将砖块拿起，并移动到新的位置
+            brick.coordinates.forEach( coordinate => {
+                
+                const row = coordinate[0]
+                const column = coordinate[1]
+                console.log('row: ', row, 'colmun: ', column)
+                brick.grid.data[row][column] = 0
+    
+                const newRow = row
+                const newColumn = column - 1 >= 0 ? column - 1 : column
+                brick.grid.data[newRow][newColumn] += 1
+            })
+    
+            console.log('new grid: ')
+            brick.grid.print()
+    
+            let bChangeState = true
+            for (let row = 0; row < brick.grid.data.length; ++row) {
+                for (let column = 0; column < brick.grid.data[row].length; ++column) {
+                    if (brick.grid.data[row][column] > 1) {
+                        bChangeState = false
+                    }
+                }
+            }
+            if (bChangeState) {
+                brick.coordinates = brickNewPosition
+            } else {
+                brick.coordinates = brickPrevPosition
+                brick.grid.data = gridPrevState
+            }
+        } else if (direction === 'right') {
+    
+            // 砖块原始位置
+            let brickPrevPosition = JSON.parse(JSON.stringify(brick.coordinates))
+    
+            // grid原始状态
+            let gridPrevState = JSON.parse(JSON.stringify(brick.grid.data))
+    
+            // 砖块新位置
+            let brickNewPosition = brickPrevPosition.map( coordinate => [coordinate[0], coordinate[1] + 1  < 10 ? coordinate[1] + 1 : coordinate[1]])
+    
+            // 从砖块当前位置将砖块拿起，并移动到新的位置
+            brick.coordinates.forEach( coordinate => {
+                
+                const row = coordinate[0]
+                const column = coordinate[1]
+                console.log('row: ', row, 'colmun: ', column)
+                brick.grid.data[row][column] = 0
+    
+                const newRow = row
+                const newColumn = column + 1 < 10 ? column + 1 : column
+                brick.grid.data[newRow][newColumn] += 1
+            })
+    
+            console.log('new grid: ')
+            brick.grid.print()
+    
+    
+            let bChangeState = true
+            for (let row = 0; row < brick.grid.data.length; ++row) {
+                for (let column = 0; column < brick.grid.data[row].length; ++column) {
+                    if (brick.grid.data[row][column] > 1) {
+                        bChangeState = false
+                    }
+                }
+            }
+    
+            if (bChangeState) {
+                brick.coordinates = brickNewPosition
+            } else {
+                brick.coordinates = brickPrevPosition
+                brick.grid.data = gridPrevState
+            }
+    
+        } else if (direction === 'down') {
+    
+            // 砖块原始位置
+            let brickPrevPosition = JSON.parse(JSON.stringify(brick.coordinates))
+    
+            // grid原始状态
+            let gridPrevState = JSON.parse(JSON.stringify(brick.grid.data))
+    
+            // 砖块新位置
+            let brickNewPosition = brickPrevPosition.map(coordinate => [coordinate[0] + 1, coordinate[1]]) 
+    
+            // 检查砖块是否到底
+            if (brickNewPosition.filter(coordinate => coordinate[0] >= 20).length > 0) {
+                brick.bBottom = true
+                return
+            }
+    
+            brick.coordinates.forEach( coordinate => {
+    
+                const row = coordinate[0]
+                const column = coordinate[1]
+                brick.grid.data[row][column] -= 1
+    
+                const newRow = row + 1
+                const newColumn = column
+                brick.grid.data[newRow][newColumn] += 1
+            })
+    
+            console.log('new grid: ')
+            brick.grid.print()
+    
+            let bChangeState = true
+            for (let row = 0; row < brick.grid.data.length; ++row) {
+                for (let column = 0; column < brick.grid.data[row].length; ++column) {
+                    if (brick.grid.data[row][column] > 1) {
+                        bChangeState = false
+                    }
+                }
+            }
+            if (bChangeState) {
+                brick.bBottom = false
+                brick.coordinates = brickNewPosition
+            } else {
+                brick.bBottom = true
+                brick.coordinates = brickPrevPosition
+                brick.grid.data = gridPrevState
+            }
+        } else if (direction === 'bottom') {
+    
+        } 
+    }
+}
+
+class BrickI extends BaseBrick {
+    constructor(position, grid) {
+        super(position, grid)
+    }
+    
+    init (position) {           //this.bBottom = false
         for (let i = 1; i <= 4; ++i) {
             this.coordinates.push([i, position])
         }
-
+    
         this.coordinates.forEach((coordinate) => {
             const row = coordinate[0]
             const column = coordinate[1]
             this.grid.data[row][column] = 1
         })
-    }
-
-    isBottom() {
-        return this.bBottom
-    }
-    
-    // 砖块移动
-    move(direction) {
-        _moveBrick(this, direction)
-    }
-    
+    } 
     // 砖块旋转
     rotate() {
     
     }
 }
 
-function _moveBrick (brick, direction) {
-    
-    if (this.bBottom) {
-        return
-    }
-    if (direction === 'left') {
 
-        // 砖块原始位置
-        let brickPrevPosition = JSON.parse(JSON.stringify(brick.coordinates))
-
-        // grid原始状态
-        let gridPrevState = JSON.parse(JSON.stringify(brick.grid.data))
-
-        // 砖块新位置
-        let brickNewPosition = brickPrevPosition.map( coordinate => [coordinate[0], coordinate[1] - 1  >= 0 ? coordinate[1] - 1 : coordinate[1]] )
-
-        // 从砖块当前位置将砖块拿起，并移动到新的位置
-        brick.coordinates.forEach( coordinate => {
-            
-            const row = coordinate[0]
-            const column = coordinate[1]
-            console.log('row: ', row, 'colmun: ', column)
-            brick.grid.data[row][column] = 0
-
-            const newRow = row
-            const newColumn = column - 1 >= 0 ? column - 1 : column
-            brick.grid.data[newRow][newColumn] += 1
-        })
-
-        console.log('new grid: ')
-        brick.grid.print()
-
-        let bChangeState = true
-        for (let row = 0; row < brick.grid.data.length; ++row) {
-            for (let column = 0; column < brick.grid.data[row].length; ++column) {
-                if (brick.grid.data[row][column] > 1) {
-                    bChangeState = false
-                }
-            }
-        }
-        if (bChangeState) {
-            brick.coordinates = brickNewPosition
-        } else {
-            brick.coordinates = brickPrevPosition
-            brick.grid.data = gridPrevState
-        }
-    } else if (direction === 'right') {
-
-        // 砖块原始位置
-        let brickPrevPosition = JSON.parse(JSON.stringify(brick.coordinates))
-
-        // grid原始状态
-        let gridPrevState = JSON.parse(JSON.stringify(brick.grid.data))
-
-        // 砖块新位置
-        let brickNewPosition = brickPrevPosition.map( coordinate => [coordinate[0], coordinate[1] + 1  < 10 ? coordinate[1] + 1 : coordinate[1]])
-
-        // 从砖块当前位置将砖块拿起，并移动到新的位置
-        brick.coordinates.forEach( coordinate => {
-            
-            const row = coordinate[0]
-            const column = coordinate[1]
-            console.log('row: ', row, 'colmun: ', column)
-            brick.grid.data[row][column] = 0
-
-            const newRow = row
-            const newColumn = column + 1 < 10 ? column + 1 : column
-            brick.grid.data[newRow][newColumn] += 1
-        })
-
-        console.log('new grid: ')
-        brick.grid.print()
-
-
-        let bChangeState = true
-        for (let row = 0; row < brick.grid.data.length; ++row) {
-            for (let column = 0; column < brick.grid.data[row].length; ++column) {
-                if (brick.grid.data[row][column] > 1) {
-                    bChangeState = false
-                }
-            }
-        }
-
-        if (bChangeState) {
-            brick.coordinates = brickNewPosition
-        } else {
-            brick.coordinates = brickPrevPosition
-            brick.grid.data = gridPrevState
-        }
-
-    } else if (direction === 'down') {
-
-        // 砖块原始位置
-        let brickPrevPosition = JSON.parse(JSON.stringify(brick.coordinates))
-
-        // grid原始状态
-        let gridPrevState = JSON.parse(JSON.stringify(brick.grid.data))
-
-        // 砖块新位置
-        let brickNewPosition = brickPrevPosition.map(coordinate => [coordinate[0] + 1, coordinate[1]]) 
-
-        // 检查砖块是否到底
-        if (brickNewPosition.filter(coordinate => coordinate[0] >= 20).length > 0) {
-            brick.bBottom = true
-            return
-        }
-
-        brick.coordinates.forEach( coordinate => {
-
-            const row = coordinate[0]
-            const column = coordinate[1]
-            brick.grid.data[row][column] -= 1
-
-            const newRow = row + 1
-            const newColumn = column
-            brick.grid.data[newRow][newColumn] += 1
-        })
-
-        console.log('new grid: ')
-        brick.grid.print()
-
-        let bChangeState = true
-        for (let row = 0; row < brick.grid.data.length; ++row) {
-            for (let column = 0; column < brick.grid.data[row].length; ++column) {
-                if (brick.grid.data[row][column] > 1) {
-                    bChangeState = false
-                }
-            }
-        }
-        if (bChangeState) {
-            brick.bBottom = false
-            brick.coordinates = brickNewPosition
-        } else {
-            brick.bBottom = true
-            brick.coordinates = brickPrevPosition
-            brick.grid.data = gridPrevState
-        }
-    } else if (direction === 'bottom') {
-
-    }
-    
-}
 
 
