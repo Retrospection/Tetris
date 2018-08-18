@@ -54,7 +54,7 @@ class Grid {
         return rowsCanRemove
     }
 
-    remove() {
+    remove(numOfRows) {
         // 由于处于 data 数组末尾的为底层，处于 data 数组首部的为高层，只需要弹出尾部，并在首部添加即可
         for (let i = 0; i < numOfRows; ++i) {
             this.data.pop()

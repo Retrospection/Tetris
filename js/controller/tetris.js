@@ -5,6 +5,7 @@ class Tetris {
         this.view = new CanvasView()
         this.view.delegate = this
         this.fps = 10
+        this.timer = undefined
     }
 
     init() {
@@ -13,17 +14,21 @@ class Tetris {
     }
 
     run() {
-        setInterval(() => {
-            if(!this.model.isDead()) {
-                this.view.refresh(this.model.data)
-            }
-            if (!this.model.isDead() && this.model.isBottom()) {
-                this.model.generate()
-            }
-            if (!this.model.isDead() && !this.model.isBottom()) {
-                this.model.moveDown()
-            }
-        }, 1000 / this.fps)
+        if (!this.timer) {
+            this.timer = setInterval(() => {
+                if(!this.model.isDead()) {
+                    this.view.refresh(this.model.data)
+                }
+                if (!this.model.isDead() && this.model.isBottom()) {
+                    let linesToRemove = this.model.examine()
+                    this.model.remove(linesToRemove)
+                    this.model.generate()
+                }
+                if (!this.model.isDead() && !this.model.isBottom()) {
+                    this.model.moveDown()
+                }
+            }, 1000 / this.fps) 
+        }
     }
 
     onKeyDownHandler(event) {
