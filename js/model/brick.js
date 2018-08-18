@@ -161,10 +161,7 @@ class BaseBrick {
 }
 
 class BrickI extends BaseBrick {
-    constructor(position, grid) {
-        super(position, grid)
-    }
-    
+
     init (position) {           //this.bBottom = false
         for (let i = 1; i <= 4; ++i) {
             this.coordinates.push([i, position])
@@ -178,10 +175,92 @@ class BrickI extends BaseBrick {
     } 
     // 砖块旋转
     rotate() {
-    
+
+        // 以第二节点为旋转中心
+        let rotateCenter = this.coordinates[1]
+    }
+}
+
+class BrickJ extends BaseBrick {
+
+    init(position) {
+        this.coordinates.push([0, position])
+        this.coordinates.push([1, position])
+        this.coordinates.push([2, position])
+        this.coordinates.push([2, position-1])
+    }
+}
+
+class BrickL extends BaseBrick {
+
+    init(position) {
+        this.coordinates.push([0, position])
+        this.coordinates.push([1, position])
+        this.coordinates.push([2, position])
+        this.coordinates.push([2, position+1])
+    }
+}
+
+class BrickO extends BaseBrick {
+
+    init(position) {
+        this.coordinates.push([0, position])
+        this.coordinates.push([0, position+1])
+        this.coordinates.push([1, position])
+        this.coordinates.push([1, position+1])
+    }
+}
+
+class BrickS extends BaseBrick {
+
+    init(position) {
+        this.coordinates.push([0, position])
+        this.coordinates.push([0, position+1])
+        this.coordinates.push([1, position])
+        this.coordinates.push([1, position-1])
+    }
+}
+
+class BrickZ extends BaseBrick {
+
+    init(position) {
+        this.coordinates.push([0, position])
+        this.coordinates.push([0, position-1])
+        this.coordinates.push([1, position])
+        this.coordinates.push([1, position+1])
+    }
+}
+
+class BrickT extends BaseBrick {
+
+    init(position) {
+        this.coordinates.push([0, position])
+        this.coordinates.push([0, position+1])
+        this.coordinates.push([0, position-1])
+        this.coordinates.push([1, position])
     }
 }
 
 
+class BrickFactory {
+    static createBrick(type, position, grid) {
+        switch (type) {
+            case 0:
+                return new BrickI(position, grid)
+            case 1:
+                return new BrickJ(position, grid)
+            case 2:
+                return new BrickL(position, grid)
+            case 3:
+                return new BrickO(position, grid)
+            case 4:
+                return new BrickS(position, grid)
+            case 5:
+                return new BrickT(position, grid)
+            case 6:
+                return new BrickZ(position, grid)
+        }
+    }
+}
 
 

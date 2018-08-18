@@ -69,7 +69,8 @@ class Grid {
     // ---------------------------------- 砖块控制逻辑 ---------------------------------
     // 生成一个砖块
     generate() {
-        this.activeBrick = new BrickI(4, this)
+        const type = Math.floor(Math.random()*7)
+        this.activeBrick = BrickFactory.createBrick(type, 4, this)
         this.print()
     }
 
