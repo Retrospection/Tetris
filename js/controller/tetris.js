@@ -59,12 +59,17 @@ class Tetris {
 
     _onArrowLeftDownHandler() {
         this.model.moveLeft()
+        if(!this.model.isDead()) {
+            this.view.refresh(this.model.data)
+        }
     }
     
     _onArrowRightDownHandler() {
         this.model.moveRight()
+        if(!this.model.isDead()) {
+            this.view.refresh(this.model.data)
+        }
     }
-
 }
 
 

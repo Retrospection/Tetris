@@ -7,6 +7,7 @@ class BaseBrick {
         this.bBottom = false
         this.init(position)
     }
+
     init(position) {
         throw Error('init not implement!')
     }
@@ -161,12 +162,17 @@ class BaseBrick {
 }
 
 class BrickI extends BaseBrick {
-
-    init (position) {           //this.bBottom = false
-        for (let i = 1; i <= 4; ++i) {
-            this.coordinates.push([i, position])
+    init (position) {
+        this.offset = [
+            [[-1, 0], [0, 0], [1, 0], [2, 0]],
+            [[0, 1], [0, 0], [0, -1], [0, -2]],
+        ]
+        this.state = 0
+        const center = [2, position]  
+        const offset = this.offset[this.state]
+        for (let j = 0; j < offset.length; ++j) {
+            this.coordinates.push([center[0]+offset[j][0], center[1]+offset[j][1]])
         }
-    
         this.coordinates.forEach((coordinate) => {
             const row = coordinate[0]
             const column = coordinate[1]
@@ -175,69 +181,143 @@ class BrickI extends BaseBrick {
     } 
     // 砖块旋转
     rotate() {
-
-        // 以第二节点为旋转中心
-        let rotateCenter = this.coordinates[1]
+        this.state = (this.state + 1) % 2
+        const center = this.coordinates[1]
+        const offset = this.offset[this.state]
+        for (let j = 0; j < offset.length; ++j) {
+            this.coordinates.push([center[0]+offset[j][0], center[1]+offset[j][1]])
+        }
     }
 }
 
 class BrickJ extends BaseBrick {
 
     init(position) {
-        this.coordinates.push([0, position])
-        this.coordinates.push([1, position])
-        this.coordinates.push([2, position])
-        this.coordinates.push([2, position-1])
+        this.offset = [
+            [[-1, 0], [0, 0], [1, 0], [1, -1]],
+            [[0, 1], [0, 0], [0, -1], [-1, -1]],
+            [[1, 0], [0, 0], [-1, 0], [-1, 1]],
+            [[0, -1], [0, 0], [0, 1], [1, 1]]
+        ]
+        this.state = 0
+        const center = [2, position]  
+        const offset = this.offset[this.state]
+        for (let j = 0; j < offset.length; ++j) {
+            this.coordinates.push([center[0]+offset[j][0], center[1]+offset[j][1]])
+        }
+        this.coordinates.forEach((coordinate) => {
+            const row = coordinate[0]
+            const column = coordinate[1]
+            this.grid.data[row][column] = 1
+        })
     }
 }
 
 class BrickL extends BaseBrick {
 
     init(position) {
-        this.coordinates.push([0, position])
-        this.coordinates.push([1, position])
-        this.coordinates.push([2, position])
-        this.coordinates.push([2, position+1])
+        this.offset = [
+            [[-1, 0], [0, 0], [1, 0], [1, 1]],
+            [[0, 1], [0, 0], [0, -1], [1, -1]],
+            [[1, 0], [0, 0], [-1, 0], [-1, -1]],
+            [[0, -1], [0, 0], [0, 1], [-1, 1]]
+        ]
+        this.state = 0
+        const center = [2, position]  
+        const offset = this.offset[this.state]
+        for (let j = 0; j < offset.length; ++j) {
+            this.coordinates.push([center[0]+offset[j][0], center[1]+offset[j][1]])
+        }
+        this.coordinates.forEach((coordinate) => {
+            const row = coordinate[0]
+            const column = coordinate[1]
+            this.grid.data[row][column] = 1
+        })
     }
 }
 
 class BrickO extends BaseBrick {
 
     init(position) {
-        this.coordinates.push([0, position])
-        this.coordinates.push([0, position+1])
-        this.coordinates.push([1, position])
-        this.coordinates.push([1, position+1])
+        this.offset = [
+            [[0, -1], [0, 0], [1, 0], [-1, -1]],
+        ]
+        this.state = 0
+        const center = [2, position]  
+        const offset = this.offset[this.state]
+        for (let j = 0; j < offset.length; ++j) {
+            this.coordinates.push([center[0]+offset[j][0], center[1]+offset[j][1]])
+        }
+        this.coordinates.forEach((coordinate) => {
+            const row = coordinate[0]
+            const column = coordinate[1]
+            this.grid.data[row][column] = 1
+        })
     }
 }
 
 class BrickS extends BaseBrick {
 
     init(position) {
-        this.coordinates.push([0, position])
-        this.coordinates.push([0, position+1])
-        this.coordinates.push([1, position])
-        this.coordinates.push([1, position-1])
+        this.offset = [
+            [[0, 1], [0, 0], [1, 0], [1, -1]],
+            [[-1, 0], [0, 0], [0, 1], [1, 1]],
+        ]
+        this.state = 0
+        const center = [2, position]  
+        const offset = this.offset[this.state]
+        for (let j = 0; j < offset.length; ++j) {
+            this.coordinates.push([center[0]+offset[j][0], center[1]+offset[j][1]])
+        }
+        this.coordinates.forEach((coordinate) => {
+            const row = coordinate[0]
+            const column = coordinate[1]
+            this.grid.data[row][column] = 1
+        })
     }
 }
 
 class BrickZ extends BaseBrick {
 
     init(position) {
-        this.coordinates.push([0, position])
-        this.coordinates.push([0, position-1])
-        this.coordinates.push([1, position])
-        this.coordinates.push([1, position+1])
+        this.offset = [
+            [[0, -1], [0, 0], [1, 0], [1, 1]],
+            [[-1, 0], [0, 0], [0, -1], [1, -1]],
+        ]
+        this.state = 0
+        const center = [2, position]  
+        const offset = this.offset[this.state]
+        for (let j = 0; j < offset.length; ++j) {
+            this.coordinates.push([center[0]+offset[j][0], center[1]+offset[j][1]])
+        }
+        this.coordinates.forEach((coordinate) => {
+            const row = coordinate[0]
+            const column = coordinate[1]
+            this.grid.data[row][column] = 1
+        })
     }
 }
 
 class BrickT extends BaseBrick {
 
     init(position) {
-        this.coordinates.push([0, position])
-        this.coordinates.push([0, position+1])
-        this.coordinates.push([0, position-1])
-        this.coordinates.push([1, position])
+        this.offset = [
+            [[0, -1], [0, 0], [0, 1], [1, 0]],
+            [[-1, 0], [0, 0], [1, 0], [0, -1]],
+            [[0, 1], [0, 0], [0, -1], [-1, 0]],
+            [[1, 0], [0, 0], [-1, 0], [0, 1]],
+        ]
+        this.state = 0
+        const center = [2, position]  
+        const offset = this.offset[this.state]
+        for (let j = 0; j < offset.length; ++j) {
+            this.coordinates.push([center[0]+offset[j][0], center[1]+offset[j][1]])
+        }
+        this.coordinates.forEach((coordinate) => {
+            const row = coordinate[0]
+            const column = coordinate[1]
+            this.grid.data[row][column] = 1
+        })
     }
 }
 
@@ -259,7 +339,7 @@ class BrickFactory {
                 return new BrickT(position, grid)
             case 6:
                 return new BrickZ(position, grid)
-        }
+        } 
     }
 }
 
