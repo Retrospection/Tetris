@@ -17,7 +17,7 @@ class Tetris {
         if (!this.timer) {
             this.timer = setInterval(() => {
                 if(!this.model.isDead()) {
-                    this.view.refresh(this.model.data)
+                    this.view.refresh(this.model.getDrawGrid())
                 }
                 if (!this.model.isDead() && this.model.isBottom()) {
                     let linesToRemove = this.model.examine()

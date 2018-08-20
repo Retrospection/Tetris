@@ -22,10 +22,7 @@ class Grid {
 
         // 初始化数组
         for (let i = 0; i < 20; ++i) {
-            let row = []
-            for (let j = 0; j < 10; ++j) {
-                row.push(0)
-            }
+            let row = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             this.data.push(row)
         }
         this.generate()
@@ -97,6 +94,33 @@ class Grid {
     moveRight() {
         this.activeBrick.move('right')
     }
+    // ------------------------------------- 砖块绘制 ----------------------------------
+
+    getDrawGrid() {
+
+        // 初始化
+        let ret = []
+        for (let row = 0; row < this.data.length; ++row) {
+            ret.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        }
+
+        // 将活动砖块绘制到返回值中
+        for (let row = 0; row < this.data.length; ++row) {
+            for (let column = 0; column < this.data[row].length; ++column) {
+                ret[row][column] = this.data[row][column]
+            }
+        }
+
+        // 将当前的 grid 绘制到返回值中
+        for (let i = 0; i < this.activeBrick.coordinates[i]; ++i) {
+            let [row, column] = this.activeBrick.coordinates
+            ret[row][column] = 1
+        }
+
+        return ret
+
+    }
+
     // ------------------------------------- debug ------------------------------------
 
     // 用来调试的函数，可以输出当前model中存储情况
