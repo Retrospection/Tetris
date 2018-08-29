@@ -10,10 +10,11 @@ class Grid {
         // 初始化
         this.bInit = false
 
+        // 死亡判断
         this.bDead = false
     }
 
-    // -------------------------------------- 游戏状态逻辑 ---------------------------------
+    // -------------------------------------- public ---------------------------------
     init() {
         // 防止重复初始化
         if (this.bInit) {
@@ -25,54 +26,25 @@ class Grid {
             let row = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             this.data.push(row)
         }
-        this.generate()
+        
         this.bInit = true
+        this.isDead = false
+    }
+
+    tick() {
+        if (this.activeBrick.isBottom() && this._checkDeath()) {
+
+        } else if (this.activeBrick.isBottom() && !this._checkDeath()) {
+
+        } else if (!this.activeBrick.isBottom()) {
+
+        } else {
+            throw(Error('error state!'))
+        }
     }
 
     isDead() {
-        for (let i = 0; i < this.data[0].length; ++i) {
-            if (this.data[0][i] > 0) {
-                this.bDead = true
-            }
-        }
-        return this.bInit && this.bDead
-    }
-    
-    examine() {
-        let rowsCanRemove = 0
-        for (let row = 0; row < this.data.length; ++row) {
-            let filteredRow = this.data[row].filter(function (item) {
-                return item === 0
-            })
-            if (filteredRow.length === 0) {
-                ++rowsCanRemove
-            }
-        }
-        return rowsCanRemove
-    }
-
-    remove(numOfRows) {
-        // 由于处于 data 数组末尾的为底层，处于 data 数组首部的为高层，只需要弹出尾部，并在首部添加即可
-        for (let i = 0; i < numOfRows; ++i) {
-            this.data.pop()
-            let temp = []
-            for (let j = 0; j < 10; ++j) {
-                temp.push(0)
-            }
-            this.data.unshift(temp)
-        }
-    }
-
-    // ---------------------------------- 砖块控制逻辑 ---------------------------------
-    // 生成一个砖块
-    generate() {
-        const type = Math.floor(Math.random()*7)
-        this.activeBrick = BrickFactory.createBrick(type, 4, this)
-        this.print()
-    }
-
-    isBottom() {
-        return this.activeBrick.isBottom()
+        return this.isDead
     }
 
     toTheGround() {
@@ -83,10 +55,6 @@ class Grid {
         this.activeBrick.rotate()
     }
     
-    moveDown() {
-        this.activeBrick.move('down')
-    }
-    
     moveLeft() {
         this.activeBrick.move('left')
     }
@@ -94,6 +62,7 @@ class Grid {
     moveRight() {
         this.activeBrick.move('right')
     }
+
     // ------------------------------------- 砖块绘制 ----------------------------------
 
     getDrawGrid() {
@@ -121,6 +90,52 @@ class Grid {
 
     }
 
+    _checkDeath() {
+        for (let i = 0; i < this.data[0].length; ++i) {
+            if (this.data[0][i] > 0) {
+                this.bDead = true
+            }
+        }
+        return this.bInit && this.bDead
+    }
+    
+    _examine() {
+        let rowsCanRemove = 0
+        for (let row = 0; row < this.data.length; ++row) {
+            let filteredRow = this.data[row].filter(function (item) {
+                return item === 0
+            })
+            if (filteredRow.length === 0) {
+                ++rowsCanRemove
+            }
+        }
+        return rowsCanRemove
+    }
+
+    _remove(numOfRows) {
+        // 由于处于 data 数组末尾的为底层，处于 data 数组首部的为高层，只需要弹出尾部，并在首部添加即可
+        for (let i = 0; i < numOfRows; ++i) {
+            this.data.pop()
+            let temp = []
+            for (let j = 0; j < 10; ++j) {
+                temp.push(0)
+            }
+            this.data.unshift(temp)
+        }
+    }
+
+    // ---------------------------------- 砖块控制逻辑 ---------------------------------
+    // 生成一个砖块
+    _generate() {
+        const type = Math.floor(Math.random()*7)
+        this.activeBrick = BrickFactory.createBrick(type, 4, this)
+        this.print()
+    }
+
+    _moveDown() {
+        this.activeBrick.move('down')
+    }
+    
     // ------------------------------------- debug ------------------------------------
 
     // 用来调试的函数，可以输出当前model中存储情况

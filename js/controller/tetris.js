@@ -16,16 +16,11 @@ class Tetris {
     run() {
         if (!this.timer) {
             this.timer = setInterval(() => {
-                if(!this.model.isDead()) {
+                if (!this.model.isDead()) {
+                    this.model.tick()
                     this.view.refresh(this.model.getDrawGrid())
-                }
-                if (!this.model.isDead() && this.model.isBottom()) {
-                    let linesToRemove = this.model.examine()
-                    this.model.remove(linesToRemove)
-                    this.model.generate()
-                }
-                if (!this.model.isDead() && !this.model.isBottom()) {
-                    this.model.moveDown()
+                } else {
+                    clearInterval(this.timer)
                 }
             }, 1000 / this.fps) 
         }
